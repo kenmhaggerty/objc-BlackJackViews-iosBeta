@@ -39,6 +39,7 @@
 - (IBAction)deal:(id)sender;
 - (IBAction)hit:(id)sender;
 - (IBAction)stay:(id)sender;
+- (IBAction)adjustHue:(UISlider *)sender;
 - (void)refreshHouse:(BOOL)visible;
 - (void)refreshPlayer;
 - (void)housePlays;
@@ -127,6 +128,16 @@
     [self.game.player setStayed:YES];
     [self refreshPlayer];
     [self housePlays];
+}
+
+- (IBAction)adjustHue:(UISlider *)sender
+{
+    UIColor *color = [UIColor colorWithHue:sender.value saturation:1.0f brightness:1.0f alpha:1.0f];
+    for (UIView *cardView in [self.houseCards arrayByAddingObjectsFromArray:self.playerCards])
+    {
+        [cardView setBackgroundColor:color];
+    }
+    [sender setTintColor:color];
 }
 
 - (void)refreshHouse:(BOOL)visible
