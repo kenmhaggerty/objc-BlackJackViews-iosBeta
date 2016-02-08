@@ -54,6 +54,11 @@
     [self setHouseCards:@[self.houseCard1, self.houseCard2, self.houseCard3, self.houseCard4, self.houseCard5]];
     [self setPlayerCards:@[self.playerCard1, self.playerCard2, self.playerCard3, self.playerCard4, self.playerCard5]];
     
+    for (UIView *cardView in [self.houseCards arrayByAddingObjectsFromArray:self.playerCards])
+    {
+        [cardView.layer setCornerRadius:6.0f];
+    }
+    
     [self.winner setHidden:YES];
     [self refreshHouse:NO];
     [self.houseScore setHidden:YES];
