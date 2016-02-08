@@ -243,6 +243,8 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="buttonHit" destination="Ra6-Lx-heH" id="V1k-YI-aiq"/>
+                        <outlet property="buttonStay" destination="dzP-D7-yWZ" id="cE5-Q5-7qK"/>
                         <outlet property="houseBlackjack" destination="o2I-uD-oQl" id="oZJ-81-n77"/>
                         <outlet property="houseBust" destination="pW6-R2-I3W" id="zG3-gy-6B1"/>
                         <outlet property="houseCard1" destination="MB7-5b-QZM" id="gXv-i8-gVo"/>

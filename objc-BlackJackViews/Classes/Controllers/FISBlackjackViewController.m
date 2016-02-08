@@ -32,9 +32,17 @@
 @property (nonatomic, strong) IBOutlet UILabel *playerStayed;
 @property (nonatomic, strong) IBOutlet UILabel *playerBust;
 @property (nonatomic, strong) IBOutlet UILabel *playerBlackjack;
+@property (nonatomic, strong) IBOutlet UIButton *buttonHit;
+@property (nonatomic, strong) IBOutlet UIButton *buttonStay;
+@property (nonatomic, strong) NSArray *houseCards;
+@property (nonatomic, strong) NSArray *playerCards;
 - (IBAction)deal:(id)sender;
 - (IBAction)hit:(id)sender;
 - (IBAction)stay:(id)sender;
+- (void)refreshHouse;
+- (void)refreshPlayer;
+- (void)housePlays;
+- (void)gameOver;
 @end
 
 @implementation FISBlackjackViewController
@@ -43,25 +51,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self setHouseCards:@[self.houseCard1, self.houseCard2, self.houseCard3, self.houseCard4, self.houseCard5]];
+    [self setPlayerCards:@[self.playerCard1, self.playerCard2, self.playerCard3, self.playerCard4, self.playerCard5]];
+    
     [self.winner setHidden:YES];
+    [self refreshHouse];
     [self.houseScore setHidden:YES];
-    [self.houseCard1 setHidden:YES];
-    [self.houseCard2 setHidden:YES];
-    [self.houseCard3 setHidden:YES];
-    [self.houseCard4 setHidden:YES];
-    [self.houseCard5 setHidden:YES];
     [self.houseStayed setHidden:YES];
     [self.houseBust setHidden:YES];
     [self.houseBlackjack setHidden:YES];
+    [self refreshPlayer];
     [self.playerScore setHidden:YES];
-    [self.playerCard1 setHidden:YES];
-    [self.playerCard2 setHidden:YES];
-    [self.playerCard3 setHidden:YES];
-    [self.playerCard4 setHidden:YES];
-    [self.playerCard5 setHidden:YES];
     [self.playerStayed setHidden:YES];
     [self.playerBust setHidden:YES];
     [self.playerBlackjack setHidden:YES];
+    [self.buttonHit setEnabled:NO];
+    [self.buttonStay setEnabled:NO];
+    
+    [self setGame:[[FISBlackjackGame alloc] init]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,19 +86,114 @@
 }
 */
 
-- (IBAction)deal:(id)sender {
+- (IBAction)deal:(id)sender
+{
+    [self.winner setHidden:YES];
+    [self.houseScore setHidden:NO];
+    [self.playerScore setHidden:NO];
     
-    //
+    [self.game.deck resetDeck];
+    [self.game.house resetForNewGame];
+    [self.game.player resetForNewGame];
+    [self.game dealNewRound];
+    
+    [self refreshPlayer];
+    [self refreshHouse];
 }
 
-- (IBAction)hit:(id)sender {
+- (IBAction)hit:(id)sender
+{
+    [self.game dealCardToPlayer];
+    [self refreshPlayer];
+    if (self.game.player.busted)
+    {
+        [self gameOver];
+        return;
+    }
     
-    //
+    if (self.game.player.cardsInHand.count == 5)
+    {
+        [self housePlays];
+    }
 }
 
-- (IBAction)stay:(id)sender {
-    
-    //
+- (IBAction)stay:(id)sender
+{
+    [self.game.player setStayed:YES];
+    [self refreshPlayer];
+    [self housePlays];
+}
+
+- (void)refreshHouse
+{
+    UILabel *cardLabel;
+    FISCard *card;
+    for (NSUInteger i = 0; i < self.houseCards.count; i++)
+    {
+        cardLabel = [self.houseCards objectAtIndex:i];
+        if (i >= self.game.house.cardsInHand.count)
+        {
+            [cardLabel setText:nil];
+            [cardLabel setHidden:YES];
+            continue;
+        }
+        
+        card = [self.game.house.cardsInHand objectAtIndex:i];
+        [cardLabel setText:[card cardLabel]];
+        [cardLabel setHidden:NO];
+    }
+    [self.houseScore setText:[NSString stringWithFormat:@"Score: %lu", self.game.house.handscore]];
+    [self.houseBlackjack setHidden:!self.game.house.blackjack];
+    [self.houseBust setHidden:!self.game.house.busted];
+    [self.houseStayed setHidden:!self.game.house.stayed];
+}
+
+- (void)refreshPlayer
+{
+    UILabel *cardLabel;
+    FISCard *card;
+    for (NSUInteger i = 0; i < self.playerCards.count; i++)
+    {
+        cardLabel = [self.playerCards objectAtIndex:i];
+        if (i >= self.game.player.cardsInHand.count)
+        {
+            [cardLabel setText:nil];
+            [cardLabel setHidden:YES];
+            continue;
+        }
+        
+        card = [self.game.player.cardsInHand objectAtIndex:i];
+        [cardLabel setText:[card cardLabel]];
+        [cardLabel setHidden:NO];
+    }
+    [self.playerScore setText:[NSString stringWithFormat:@"Score: %lu", self.game.player.handscore]];
+    [self.playerBlackjack setHidden:!self.game.player.blackjack];
+    [self.playerBust setHidden:!self.game.player.busted];
+    [self.playerStayed setHidden:!self.game.player.stayed];
+    [self.buttonHit setEnabled:!self.game.player.busted];
+    [self.buttonStay setEnabled:!self.game.player.busted];
+}
+
+- (void)housePlays
+{
+    while (!self.game.house.busted && !self.game.house.stayed && (self.game.house.cardsInHand.count <= self.houseCards.count)) {
+        [self.game processHouseTurn];
+        [self refreshHouse];
+    }
+    [self gameOver];
+}
+
+- (void)gameOver
+{
+    [self.buttonHit setEnabled:NO];
+    [self.buttonStay setEnabled:NO];
+    [self.game incrementWinsAndLossesForHouseWins:self.game.houseWins];
+    [self.winner setHidden:NO];
+    [self.winner setText:self.game.houseWins ? @"You lost!" : @"You won!"];
+    [self.houseWins setText:[NSString stringWithFormat:@"Wins: %lu", self.game.house.wins]];
+    [self.houseLosses setText:[NSString stringWithFormat:@"Losses: %lu", self.game.house.losses]];
+    [self.playerWins setText:[NSString stringWithFormat:@"Wins: %lu", self.game.player.wins]];
+    [self.playerLosses setText:[NSString stringWithFormat:@"Losses: %lu", self.game.player.losses]];
 }
 
 @end
