@@ -39,7 +39,7 @@
 - (IBAction)deal:(id)sender;
 - (IBAction)hit:(id)sender;
 - (IBAction)stay:(id)sender;
-- (void)refreshHouse;
+- (void)refreshHouse:(BOOL)visible;
 - (void)refreshPlayer;
 - (void)housePlays;
 - (void)gameOver;
@@ -55,7 +55,7 @@
     [self setPlayerCards:@[self.playerCard1, self.playerCard2, self.playerCard3, self.playerCard4, self.playerCard5]];
     
     [self.winner setHidden:YES];
-    [self refreshHouse];
+    [self refreshHouse:NO];
     [self.houseScore setHidden:YES];
     [self.houseStayed setHidden:YES];
     [self.houseBust setHidden:YES];
@@ -98,7 +98,7 @@
     [self.game dealNewRound];
     
     [self refreshPlayer];
-    [self refreshHouse];
+    [self refreshHouse:NO];
 }
 
 - (IBAction)hit:(id)sender
@@ -124,7 +124,7 @@
     [self housePlays];
 }
 
-- (void)refreshHouse
+- (void)refreshHouse:(BOOL)visible
 {
     UILabel *cardLabel;
     FISCard *card;
@@ -138,14 +138,22 @@
             continue;
         }
         
-        card = [self.game.house.cardsInHand objectAtIndex:i];
-        [cardLabel setText:[card cardLabel]];
+        if (!visible && (i == 0))
+        {
+            [cardLabel setText:@"❂"];
+        }
+        else
+        {
+            card = [self.game.house.cardsInHand objectAtIndex:i];
+            [cardLabel setText:[card cardLabel]];
+        }
         [cardLabel setHidden:NO];
     }
+    [self.houseScore setHidden:!visible];
     [self.houseScore setText:[NSString stringWithFormat:@"Score: %lu", self.game.house.handscore]];
-    [self.houseBlackjack setHidden:!self.game.house.blackjack];
-    [self.houseBust setHidden:!self.game.house.busted];
-    [self.houseStayed setHidden:!self.game.house.stayed];
+    [self.houseBlackjack setHidden:(!self.game.house.blackjack || !visible)];
+    [self.houseBust setHidden:(!self.game.house.busted || !visible)];
+    [self.houseStayed setHidden:(!self.game.house.stayed || !visible)];
 }
 
 - (void)refreshPlayer
@@ -178,7 +186,7 @@
 {
     while (!self.game.house.busted && !self.game.house.stayed && (self.game.house.cardsInHand.count <= self.houseCards.count)) {
         [self.game processHouseTurn];
-        [self refreshHouse];
+        [self refreshHouse:YES];
     }
     [self gameOver];
 }
