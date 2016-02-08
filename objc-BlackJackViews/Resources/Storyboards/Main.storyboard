@@ -249,8 +249,11 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="bottomBar" destination="gF6-hA-yit" id="eU9-sf-tYg"/>
                         <outlet property="buttonHit" destination="Ra6-Lx-heH" id="V1k-YI-aiq"/>
                         <outlet property="buttonStay" destination="dzP-D7-yWZ" id="cE5-Q5-7qK"/>
+                        <outlet property="dealButton" destination="ah4-9X-lXP" id="tb5-jx-u84"/>
+                        <outlet property="hitButton" destination="Ra6-Lx-heH" id="ZEr-el-Kaw"/>
                         <outlet property="houseBlackjack" destination="o2I-uD-oQl" id="oZJ-81-n77"/>
                         <outlet property="houseBust" destination="pW6-R2-I3W" id="zG3-gy-6B1"/>
                         <outlet property="houseCard1" destination="MB7-5b-QZM" id="gXv-i8-gVo"/>
@@ -262,6 +265,7 @@
                         <outlet property="houseScore" destination="IIA-Ew-rRc" id="sVE-6k-6Dy"/>
                         <outlet property="houseStayed" destination="bK6-Tk-d0e" id="kK5-xa-yWE"/>
                         <outlet property="houseWins" destination="dJL-rq-1Zt" id="NWG-I5-Azx"/>
+                        <outlet property="hueSlider" destination="plZ-w4-PNn" id="fNh-U0-YyH"/>
                         <outlet property="playerBlackjack" destination="WgU-EH-8FL" id="ehu-lb-7PR"/>
                         <outlet property="playerBust" destination="R89-KL-eMU" id="KtT-wv-Kjb"/>
                         <outlet property="playerCard1" destination="Yv3-zq-Crv" id="kj9-q8-Zf2"/>
@@ -273,6 +277,8 @@
                         <outlet property="playerScore" destination="2LA-xK-NBK" id="Ske-gM-t6d"/>
                         <outlet property="playerStayed" destination="TmX-OF-3CS" id="wHP-WQ-8pt"/>
                         <outlet property="playerWins" destination="xqU-dA-iHc" id="dHk-kZ-ZDE"/>
+                        <outlet property="stayButton" destination="dzP-D7-yWZ" id="t0u-Tb-iym"/>
+                        <outlet property="topBar" destination="lXk-KS-sws" id="xdZ-CV-PBT"/>
                         <outlet property="winner" destination="AFS-sU-bay" id="UVn-fX-G8m"/>
                     </connections>
                 </viewController>

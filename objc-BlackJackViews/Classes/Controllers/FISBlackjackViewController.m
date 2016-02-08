@@ -34,12 +34,19 @@
 @property (nonatomic, strong) IBOutlet UILabel *playerBlackjack;
 @property (nonatomic, strong) IBOutlet UIButton *buttonHit;
 @property (nonatomic, strong) IBOutlet UIButton *buttonStay;
+@property (nonatomic, strong) IBOutlet UISlider *hueSlider;
+@property (nonatomic, strong) IBOutlet UIView *topBar;
+@property (nonatomic, strong) IBOutlet UIView *bottomBar;
+@property (nonatomic, strong) IBOutlet UIButton *dealButton;
+@property (nonatomic, strong) IBOutlet UIButton *hitButton;
+@property (nonatomic, strong) IBOutlet UIButton *stayButton;
 @property (nonatomic, strong) NSArray *houseCards;
 @property (nonatomic, strong) NSArray *playerCards;
 - (IBAction)deal:(id)sender;
 - (IBAction)hit:(id)sender;
 - (IBAction)stay:(id)sender;
 - (IBAction)adjustHue:(UISlider *)sender;
+- (void)updateColor;
 - (void)refreshHouse:(BOOL)visible;
 - (void)refreshPlayer;
 - (void)housePlays;
@@ -59,6 +66,8 @@
     {
         [cardView.layer setCornerRadius:6.0f];
     }
+    [self.hueSlider setValue:0.6f];
+    [self updateColor];
     
     [self.winner setHidden:YES];
     [self refreshHouse:NO];
@@ -132,12 +141,23 @@
 
 - (IBAction)adjustHue:(UISlider *)sender
 {
-    UIColor *color = [UIColor colorWithHue:sender.value saturation:1.0f brightness:1.0f alpha:1.0f];
+    [self updateColor];
+}
+
+- (void)updateColor
+{
+    UIColor *color = [UIColor colorWithHue:self.hueSlider.value saturation:1.0f brightness:1.0f alpha:1.0f];
     for (UIView *cardView in [self.houseCards arrayByAddingObjectsFromArray:self.playerCards])
     {
         [cardView setBackgroundColor:color];
     }
-    [sender setTintColor:color];
+    [self.winner setTextColor:color];
+    [self.topBar setBackgroundColor:color];
+    [self.bottomBar setBackgroundColor:color];
+    [self.dealButton setTintColor:color];
+    [self.hitButton setTintColor:color];
+    [self.stayButton setTintColor:color];
+    [self.hueSlider setTintColor:color];
 }
 
 - (void)refreshHouse:(BOOL)visible
