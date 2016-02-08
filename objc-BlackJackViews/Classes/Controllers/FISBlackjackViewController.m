@@ -9,7 +9,7 @@
 #import "FISBlackjackViewController.h"
 
 @interface FISBlackjackViewController ()
-@property (nonatomic, strong) IBOutlet UILabel *gameStatus;
+@property (nonatomic, strong) IBOutlet UILabel *winner;
 @property (nonatomic, strong) IBOutlet UILabel *houseScore;
 @property (nonatomic, strong) IBOutlet UILabel *houseCard1;
 @property (nonatomic, strong) IBOutlet UILabel *houseCard2;
@@ -19,7 +19,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *houseWins;
 @property (nonatomic, strong) IBOutlet UILabel *houseLosses;
 @property (nonatomic, strong) IBOutlet UILabel *houseStayed;
-@property (nonatomic, strong) IBOutlet UILabel *houseBusted;
+@property (nonatomic, strong) IBOutlet UILabel *houseBust;
 @property (nonatomic, strong) IBOutlet UILabel *houseBlackjack;
 @property (nonatomic, strong) IBOutlet UILabel *playerScore;
 @property (nonatomic, strong) IBOutlet UILabel *playerCard1;
@@ -30,11 +30,11 @@
 @property (nonatomic, strong) IBOutlet UILabel *playerWins;
 @property (nonatomic, strong) IBOutlet UILabel *playerLosses;
 @property (nonatomic, strong) IBOutlet UILabel *playerStayed;
-@property (nonatomic, strong) IBOutlet UILabel *playerBusted;
+@property (nonatomic, strong) IBOutlet UILabel *playerBust;
 @property (nonatomic, strong) IBOutlet UILabel *playerBlackjack;
-- (IBAction)actionDeal:(id)sender;
-- (IBAction)actionHit:(id)sender;
-- (IBAction)actionStay:(id)sender;
+- (IBAction)deal:(id)sender;
+- (IBAction)hit:(id)sender;
+- (IBAction)stay:(id)sender;
 @end
 
 @implementation FISBlackjackViewController
@@ -59,17 +59,17 @@
 }
 */
 
-- (IBAction)actionDeal:(id)sender {
+- (IBAction)deal:(id)sender {
     
     //
 }
 
-- (IBAction)actionHit:(id)sender {
+- (IBAction)hit:(id)sender {
     
     //
 }
 
-- (IBAction)actionStay:(id)sender {
+- (IBAction)stay:(id)sender {
     
     //
 }
