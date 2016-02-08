@@ -42,6 +42,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self.winner setHidden:YES];
+    [self.houseScore setHidden:YES];
+    [self.houseCard1 setHidden:YES];
+    [self.houseCard2 setHidden:YES];
+    [self.houseCard3 setHidden:YES];
+    [self.houseCard4 setHidden:YES];
+    [self.houseCard5 setHidden:YES];
+    [self.houseStayed setHidden:YES];
+    [self.houseBust setHidden:YES];
+    [self.houseBlackjack setHidden:YES];
+    [self.playerScore setHidden:YES];
+    [self.playerCard1 setHidden:YES];
+    [self.playerCard2 setHidden:YES];
+    [self.playerCard3 setHidden:YES];
+    [self.playerCard4 setHidden:YES];
+    [self.playerCard5 setHidden:YES];
+    [self.playerStayed setHidden:YES];
+    [self.playerBust setHidden:YES];
+    [self.playerBlackjack setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
