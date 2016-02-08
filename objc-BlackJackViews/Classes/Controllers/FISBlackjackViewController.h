@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FISBlackjackGame.h"
 
 @interface FISBlackjackViewController : UIViewController
-
+@property (nonatomic, strong) FISBlackjackGame *game;
 @end
